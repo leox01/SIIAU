@@ -191,13 +191,59 @@ public class buscarVista extends javax.swing.JFrame {
     
     
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-       jTextFieldCodigo.setEnabled(true);
-       jTextFieldNombre.setEnabled(true);
-       jTextFieldCarrera.setEnabled(true);
-       jTextFieldPromedio.setEnabled(true);
-       jTextFieldSemestre.setEnabled(true);
-       repaint();
-       editButton.setText("Aceptar Edición");
+      
+        
+        if(editButton.getText().equals("Editar")){
+        
+            jTextFieldCodigo.setEnabled(true);
+            jTextFieldNombre.setEnabled(true);
+            jTextFieldCarrera.setEnabled(true);
+            jTextFieldPromedio.setEnabled(true);
+            jTextFieldSemestre.setEnabled(true);
+            repaint();
+            editButton.setText("Aceptar Edición");
+        }else{
+            
+            jTextFieldCodigo.setEnabled(false);
+            jTextFieldNombre.setEnabled(false);
+            jTextFieldCarrera.setEnabled(false);
+            jTextFieldPromedio.setEnabled(false);
+            jTextFieldSemestre.setEnabled(false);
+            repaint();
+            
+            
+            int codigo=0;
+            int semestre=0;
+            double promedio=0;
+            String nombre = jTextFieldNombre.getText();
+            String carrera = jTextFieldCarrera.getText();
+            try {
+                codigo = Integer.parseInt(jTextFieldCodigo.getText());
+                semestre = Integer.parseInt(jTextFieldSemestre.getText());
+                promedio = Double.parseDouble(jTextFieldPromedio.getText());
+
+            } catch (Exception e) {
+                System.out.println(e);
+                System.out.println("Problema al convertir de String a int o double");
+            }
+            
+            int codigoAlumnoEditar = Integer.parseInt(codigoBuscadoTextField.getText());
+            
+            
+            
+            Controlador.guardarAlumnoEditado(new Alumno(codigo, nombre, carrera, semestre, promedio),codigoAlumnoEditar);
+           
+            
+            
+            
+            editButton.setText("Editar");
+            
+            mostrarMensajeEmergente("Editar", "Alumno Editado Exitosamente!!!");
+            
+            
+        }
+       
+       
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void buscarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButtonActionPerformed
