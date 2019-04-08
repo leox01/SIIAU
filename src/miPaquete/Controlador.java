@@ -36,4 +36,21 @@ public class Controlador {
     
     }
     
+    public static Alumno buscarAlumno(int codigoBuscado){
+        for (Alumno alumno : alumnosArray) {
+            if(alumno.getCodigo() == codigoBuscado){
+            
+                return  alumno;
+            }
+        }
+        
+        //si no se encuentra el alumno buscado retornamos un 
+        //objeto que el código sea -1
+        Alumno a = new Alumno();
+        a.setCodigo(-1);
+        
+        return  a;
+    
+    }
+    
 }
