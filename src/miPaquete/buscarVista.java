@@ -5,6 +5,8 @@
  */
 package miPaquete;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author leox01
@@ -49,6 +51,11 @@ public class buscarVista extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         buscarButton.setText("Buscar");
+        buscarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Codigo:");
 
@@ -175,7 +182,14 @@ public class buscarVista extends javax.swing.JFrame {
         new VistaIncio().setVisible(true);
         dispose(); 
     }//GEN-LAST:event_atrasButtonActionPerformed
-
+    
+    public static void mostrarMensajeEmergente(String titulo, String mensaje){
+    
+        JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.OK_OPTION);
+        
+    }
+    
+    
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
        jTextFieldCodigo.setEnabled(true);
        jTextFieldNombre.setEnabled(true);
@@ -185,6 +199,58 @@ public class buscarVista extends javax.swing.JFrame {
        repaint();
        editButton.setText("Aceptar Edición");
     }//GEN-LAST:event_editButtonActionPerformed
+
+    private void buscarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButtonActionPerformed
+        
+        
+        if(!codigoBuscadoTextField.getText().equals("")){
+            int codigoBuscado;
+            try {
+                
+                codigoBuscado =  Integer.parseInt(codigoBuscadoTextField.getText());
+                
+                Alumno alumno = Controlador.buscarAlumno(codigoBuscado);
+                
+                if(alumno.getCodigo()!=-1){
+                    //mostrar en la vista
+                    jTextFieldCodigo.setText(Integer.toString(alumno.getCodigo()));
+                    jTextFieldNombre.setText(alumno.getNombre());
+                    jTextFieldCarrera.setText(alumno.getCarrera());
+                    jTextFieldPromedio.setText(""+alumno.getPromedio());
+                    jTextFieldSemestre.setText(""+alumno.getSemestre());
+                    
+                    
+                }else{
+                    mostrarMensajeEmergente("Buscar", "No se encontró el alumno");
+                    jTextFieldCodigo.setText("");
+                    jTextFieldCarrera.setText("");
+                    jTextFieldNombre.setText("");
+                    jTextFieldPromedio.setText("");
+                    jTextFieldSemestre.setText("");
+                    jTextFieldCodigo.setEnabled(false);
+                    jTextFieldNombre.setEnabled(false);
+                    jTextFieldCarrera.setEnabled(false);
+                    jTextFieldPromedio.setEnabled(false);
+                    jTextFieldSemestre.setEnabled(false);
+                    editButton.setText("Editar");
+                    repaint();
+                }
+                
+                
+            } catch (Exception e) {
+                mostrarMensajeEmergente("Error", "El código debe de ser un número ");
+            }
+             
+        }else{
+            
+            mostrarMensajeEmergente("Error", "Introduce un código para buscar");
+        
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_buscarButtonActionPerformed
 
     /**
      * @param args the command line arguments
