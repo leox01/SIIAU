@@ -53,4 +53,20 @@ public class Controlador {
     
     }
     
+    
+    public static void guardarAlumnoEditado(Alumno alumnoEditado,int codigoDeAlumno){
+        int index = 0;
+        for (Alumno alumno : alumnosArray) {
+            
+            if(alumno.getCodigo() == codigoDeAlumno){
+                
+                alumnosArray.remove(index);
+                alumnosArray.add(alumnoEditado);
+                
+            }
+            index++;
+        }
+    
+    }
+    
 }
