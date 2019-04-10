@@ -62,11 +62,24 @@ public class Controlador {
                 
                 alumnosArray.remove(index);
                 alumnosArray.add(alumnoEditado);
-                
+                break;
             }
             index++;
         }
     
+    }
+    
+    
+    public static boolean eliminarAlumno(int codigoDelAlumnoAEliminar){
+        int index = 0;
+        for (Alumno alumno : alumnosArray) {
+            if(alumno.getCodigo() == codigoDelAlumnoAEliminar){
+                alumnosArray.remove(index);
+                return  true;
+            }
+            index++;
+        }
+        return false;
     }
     
 }
