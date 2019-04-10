@@ -82,6 +82,11 @@ public class buscarVista extends javax.swing.JFrame {
         jTextFieldPromedio.setEnabled(false);
 
         eliminarButton.setText("Eliminar");
+        eliminarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarButtonActionPerformed(evt);
+            }
+        });
 
         editButton.setText("Editar");
         editButton.addActionListener(new java.awt.event.ActionListener() {
@@ -183,18 +188,33 @@ public class buscarVista extends javax.swing.JFrame {
         dispose(); 
     }//GEN-LAST:event_atrasButtonActionPerformed
     
-    public static void mostrarMensajeEmergente(String titulo, String mensaje){
-    
-        JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.OK_OPTION);
+    public static int mostrarMensajeEmergente(String titulo, String mensaje){
+        Object[] options = { "Aceptar", "Cancelar" };
+        int resultadoDeLaPregunta = -1;
         
+        if(titulo.equals("ALERTA")){
+            resultadoDeLaPregunta = JOptionPane.showOptionDialog(null, "¿Estas seguro de eliminar al Alumno?", "Alerta",JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,null, options, options[0]);
+           
+            if(resultadoDeLaPregunta == JOptionPane.YES_OPTION){
+                  
+                
+                return resultadoDeLaPregunta;
+                
+            }else{
+                
+                mostrarMensajeEmergente("Mensaje", "No se eliminó el usuario");
+            }
+        
+        
+        }else
+            JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.OK_OPTION);
+        return  resultadoDeLaPregunta;
     }
     
     
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
       
-        
         if(editButton.getText().equals("Editar")){
-        
             jTextFieldCodigo.setEnabled(true);
             jTextFieldNombre.setEnabled(true);
             jTextFieldCarrera.setEnabled(true);
@@ -210,7 +230,6 @@ public class buscarVista extends javax.swing.JFrame {
             jTextFieldPromedio.setEnabled(false);
             jTextFieldSemestre.setEnabled(false);
             repaint();
-            
             
             int codigo=0;
             int semestre=0;
@@ -229,17 +248,9 @@ public class buscarVista extends javax.swing.JFrame {
             
             int codigoAlumnoEditar = Integer.parseInt(codigoBuscadoTextField.getText());
             
-            
-            
             Controlador.guardarAlumnoEditado(new Alumno(codigo, nombre, carrera, semestre, promedio),codigoAlumnoEditar);
-           
-            
-            
-            
             editButton.setText("Editar");
-            
             mostrarMensajeEmergente("Editar", "Alumno Editado Exitosamente!!!");
-            
             
         }
        
@@ -297,6 +308,74 @@ public class buscarVista extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_buscarButtonActionPerformed
+
+    private void eliminarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarButtonActionPerformed
+        
+          if(!codigoBuscadoTextField.getText().equals("")){
+              int codigoAEliminar;
+              
+              try {
+                  codigoAEliminar =  Integer.parseInt(codigoBuscadoTextField.getText());
+                
+                Alumno alumno = Controlador.buscarAlumno(codigoAEliminar);
+                
+                if(alumno.getCodigo()!=-1){
+                    //mostrar en la vista
+                    jTextFieldCodigo.setText(Integer.toString(alumno.getCodigo()));
+                    jTextFieldNombre.setText(alumno.getNombre());
+                    jTextFieldCarrera.setText(alumno.getCarrera());
+                    jTextFieldPromedio.setText(""+alumno.getPromedio());
+                    jTextFieldSemestre.setText(""+alumno.getSemestre());
+                    
+                    
+                    int respuestaEliminarAlumno = mostrarMensajeEmergente("ALERTA", "¿Seguro que quieres eliminar el usuario?");
+                    
+                    if(respuestaEliminarAlumno==0){
+                        if(Controlador.eliminarAlumno(codigoAEliminar)){
+                        
+                            mostrarMensajeEmergente("Mensaje", "Alumno Eliminado Exitosamente");
+                            jTextFieldCodigo.setText("");
+                            jTextFieldCarrera.setText("");
+                            jTextFieldNombre.setText("");
+                            jTextFieldPromedio.setText("");
+                            jTextFieldSemestre.setText("");
+                            jTextFieldCodigo.setEnabled(false);
+                            jTextFieldNombre.setEnabled(false);
+                            jTextFieldCarrera.setEnabled(false);
+                            jTextFieldPromedio.setEnabled(false);
+                            jTextFieldSemestre.setEnabled(false);
+                            editButton.setText("Editar");
+                            repaint();
+                        }
+                    }
+                    
+                    
+                }else{
+                    mostrarMensajeEmergente("Buscar", "No se encontró el alumno");
+                    jTextFieldCodigo.setText("");
+                    jTextFieldCarrera.setText("");
+                    jTextFieldNombre.setText("");
+                    jTextFieldPromedio.setText("");
+                    jTextFieldSemestre.setText("");
+                    jTextFieldCodigo.setEnabled(false);
+                    jTextFieldNombre.setEnabled(false);
+                    jTextFieldCarrera.setEnabled(false);
+                    jTextFieldPromedio.setEnabled(false);
+                    jTextFieldSemestre.setEnabled(false);
+                    editButton.setText("Editar");
+                    repaint();
+                }
+                  
+              } catch (Exception e) {
+                  mostrarMensajeEmergente("Error", "El código debe de ser un número ");
+              }
+          
+          }else{
+            
+            mostrarMensajeEmergente("Error", "Introduce un código para Eliminar");
+        
+        }
+    }//GEN-LAST:event_eliminarButtonActionPerformed
 
     /**
      * @param args the command line arguments
