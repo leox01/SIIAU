@@ -94,7 +94,6 @@ public class Controlador {
     
     public static void cargarArchivo(){
         
-        
         if(primeraVezQueAbroElPrograma){
             
             File file = new File("miArchivo.txt");
@@ -119,7 +118,6 @@ public class Controlador {
                             case 4 : a.setPromedio(Double.parseDouble((String)st1.nextElement()));break;
                         }
                         contador++;
-                       
                     }
                      alumnosArray.add(a);
                     
