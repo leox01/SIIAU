@@ -18,6 +18,7 @@ public class VistaIncio extends javax.swing.JFrame {
      */
     public VistaIncio() {
         initComponents();
+        Controlador.cargarArchivo();
     }
 
     /**
@@ -148,7 +149,7 @@ public class VistaIncio extends javax.swing.JFrame {
                 break;
             case "Salir": 
                 dispose();
-               
+                Controlador.guardarArchivo();
                 break;
         }
        
@@ -188,6 +189,9 @@ public class VistaIncio extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BuscarButton;

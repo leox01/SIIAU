@@ -5,6 +5,7 @@
  */
 package miPaquete;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -52,6 +53,12 @@ public class vistaRegistrar extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Registro de Alumno");
+
+        jTextFieldCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                revisarCodigoRepetido(evt);
+            }
+        });
 
         jLabel2.setText("Nombre:");
 
@@ -194,6 +201,13 @@ public class vistaRegistrar extends javax.swing.JFrame {
            
        }  
     }//GEN-LAST:event_jButtonRegistrarActionPerformed
+
+    private void revisarCodigoRepetido(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_revisarCodigoRepetido
+        if(jTextFieldCodigo.getText().equals(""))
+            jTextFieldCodigo.setBackground(Color.red);
+        else
+            jTextFieldCodigo.setBackground(Color.white);
+    }//GEN-LAST:event_revisarCodigoRepetido
 
     public static void mostrarMensajeEmergente(String titulo, String mensaje){
     
